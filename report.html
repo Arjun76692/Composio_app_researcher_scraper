@@ -6,14 +6,14 @@
 <title>Composio Toolkit Research – 100 Apps, Agent + Verification</title>
 <style>
     :root {
-        --blue: #4a90e2;
-        --blue-dark: #357ab8;
-        --ink: #2c3e50;
-        --muted: #6b7785;
-        --bg: #f4f7fb;
-        --good: #2e8b57;
-        --bad: #c0392b;
-        --warn: #b58105;
+        --blue: #333333;
+        --blue-dark: #000000;
+        --ink: #111111;
+        --muted: #666666;
+        --bg: #f9f9f9;
+        --good: #222222;
+        --bad: #444444;
+        --warn: #333333;
     }
     * { box-sizing: border-box; }
     body { font-family: Arial, Helvetica, sans-serif; background: var(--bg); color: #333; margin: 0; padding: 0; }
@@ -28,21 +28,21 @@
     p, li { line-height: 1.6; font-size: 0.95rem; }
     ul { margin: 8px 0 8px 20px; padding: 0; }
     .key-point { font-weight: 600; color: var(--blue-dark); }
-    .summary-box { background: #f0f8ff; border-left: 4px solid var(--blue); padding: 15px 20px; margin-top: 12px; border-radius: 4px; }
-    .warn-box { background: #fff8ee; border-left: 4px solid var(--warn); padding: 15px 20px; margin-top: 12px; border-radius: 4px; }
+    .summary-box { background: #f0f0f0; border-left: 4px solid var(--blue); padding: 15px 20px; margin-top: 12px; border-radius: 4px; }
+    .warn-box { background: #e8e8e8; border-left: 4px solid var(--warn); padding: 15px 20px; margin-top: 12px; border-radius: 4px; }
     .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-top: 16px; }
-    .stat { background: #f7f9fc; border: 1px solid #e6ebf2; border-radius: 6px; padding: 14px; text-align: center; }
+    .stat { background: #ffffff; border: 1px solid #cccccc; border-radius: 6px; padding: 14px; text-align: center; }
     .stat .num { font-size: 1.6rem; font-weight: 700; color: var(--blue-dark); }
     .stat .label { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
     table { border-collapse: collapse; width: 100%; font-size: 0.82rem; margin-top: 12px; }
     th, td { padding: 6px 8px; border-bottom: 1px solid #eef1f6; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
     th { background: #f0f4fa; position: sticky; top: 0; color: var(--ink); font-size: 0.78rem; }
     tr.incomplete td { color: #b3b9c2; font-style: italic; }
-    .table-scroll { max-height: 480px; overflow-y: auto; border: 1px solid #e6ebf2; border-radius: 6px; margin-top: 10px; }
+    .table-scroll { max-height: 480px; overflow-y: auto; border: 1px solid #cccccc; border-radius: 6px; margin-top: 10px; }
     .pill { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; }
-    .pill-good { background: #e6f4ea; color: var(--good); }
-    .pill-bad { background: #fbe9e7; color: var(--bad); }
-    .pill-warn { background: #fff4de; color: var(--warn); }
+    .pill-good { background: #e0e0e0; color: var(--good); }
+    .pill-bad { background: #cccccc; color: var(--bad); }
+    .pill-warn { background: #d8d8d8; color: var(--warn); }
     code { background: #f0f2f5; padding: 1px 5px; border-radius: 3px; font-size: 0.85rem; }
     a { color: var(--blue-dark); }
     footer.section { text-align: center; font-size: 0.82rem; color: #777; }
@@ -55,6 +55,7 @@
     <header>
         <h1>Composio Toolkit Research – 100 Apps</h1>
         <p>Auth, access model, API surface, and buildability &mdash; researched by an agent, checked by hand.</p>
+        <p style="margin-top: 12px; font-size: 0.9rem;"><a href="https://github.com/Arjun76692/Composio_app_researcher_scraper" target="_blank" style="color: #ffffff; text-decoration: underline; font-weight: bold;">View Source Code on GitHub</a></p>
     </header>
 
     <!-- Headline -->
@@ -254,7 +255,9 @@
     </section>
 
     <footer class="section">
-        <p>Prepared for the Composio AI Product Ops Intern take-home. Agent: <code>agent.py</code> (Groq + Composio EXA search). Raw output: <code>research_results_checkpoint.csv</code>. Manual verification: <code>verification_sample.xlsx</code>.</p>
+        <p>Prepared for the Composio AI Product Ops Intern take-home.</p>
+        <p><strong>Source Code:</strong> <a href="https://github.com/Arjun76692/Composio_app_researcher_scraper" target="_blank">https://github.com/Arjun76692/Composio_app_researcher_scraper</a><br>
+        Agent: <code>agent.py</code> (Groq + Composio EXA search). Raw output: <code>research_results_checkpoint.csv</code>. Manual verification: <code>verification_sample.xlsx</code>.</p>
     </footer>
 </div>
 </body>
