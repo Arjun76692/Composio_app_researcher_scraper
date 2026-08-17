@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Composio Toolkit Research – 100 Apps, Agent + Verification</title>
+<style>
+    :root {
+        --blue: #4a90e2;
+        --blue-dark: #357ab8;
+        --ink: #2c3e50;
+        --muted: #6b7785;
+        --bg: #f4f7fb;
+        --good: #2e8b57;
+        --bad: #c0392b;
+        --warn: #b58105;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: Arial, Helvetica, sans-serif; background: var(--bg); color: #333; margin: 0; padding: 0; }
+    .wrapper { max-width: 1080px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; }
+    header { background: linear-gradient(135deg, var(--blue), var(--blue-dark)); color: #fff; padding: 34px 24px; text-align: center; }
+    header h1 { margin: 0 0 8px 0; font-size: 2rem; letter-spacing: 0.3px; }
+    header p { margin: 0; opacity: 0.92; font-size: 0.95rem; }
+    .section { padding: 26px 32px; border-bottom: 1px solid #eaeef3; }
+    .section:last-child { border-bottom: none; }
+    h2 { margin-top: 0; color: var(--ink); font-size: 1.5rem; }
+    h3 { color: var(--ink); font-size: 1.1rem; margin-bottom: 6px; }
+    p, li { line-height: 1.6; font-size: 0.95rem; }
+    ul { margin: 8px 0 8px 20px; padding: 0; }
+    .key-point { font-weight: 600; color: var(--blue-dark); }
+    .summary-box { background: #f0f8ff; border-left: 4px solid var(--blue); padding: 15px 20px; margin-top: 12px; border-radius: 4px; }
+    .warn-box { background: #fff8ee; border-left: 4px solid var(--warn); padding: 15px 20px; margin-top: 12px; border-radius: 4px; }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-top: 16px; }
+    .stat { background: #f7f9fc; border: 1px solid #e6ebf2; border-radius: 6px; padding: 14px; text-align: center; }
+    .stat .num { font-size: 1.6rem; font-weight: 700; color: var(--blue-dark); }
+    .stat .label { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.82rem; margin-top: 12px; }
+    th, td { padding: 6px 8px; border-bottom: 1px solid #eef1f6; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+    th { background: #f0f4fa; position: sticky; top: 0; color: var(--ink); font-size: 0.78rem; }
+    tr.incomplete td { color: #b3b9c2; font-style: italic; }
+    .table-scroll { max-height: 480px; overflow-y: auto; border: 1px solid #e6ebf2; border-radius: 6px; margin-top: 10px; }
+    .pill { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; }
+    .pill-good { background: #e6f4ea; color: var(--good); }
+    .pill-bad { background: #fbe9e7; color: var(--bad); }
+    .pill-warn { background: #fff4de; color: var(--warn); }
+    code { background: #f0f2f5; padding: 1px 5px; border-radius: 3px; font-size: 0.85rem; }
+    a { color: var(--blue-dark); }
+    footer.section { text-align: center; font-size: 0.82rem; color: #777; }
+    .verify-table td, .verify-table th { white-space: normal; }
+    @media (max-width: 600px) { .wrapper { margin: 10px; } header { padding: 22px 12px; } .section { padding: 18px 16px; } table { font-size: 0.72rem; } }
+</style>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <h1>Composio Toolkit Research – 100 Apps</h1>
+        <p>Auth, access model, API surface, and buildability &mdash; researched by an agent, checked by hand.</p>
+    </header>
+
+    <!-- Headline -->
+    <section class="section">
+        <h2>What was researched, in plain terms</h2>
+        <p>The goal was to study 100 apps and find out how developers log in, whether access is easy or needs approval, what APIs each app offers, whether an AI agent could use it today, and whether the AI's own research was actually correct.</p>
+        <p><span class="key-point">76 of 100 apps</span> got fully researched before the run had to stop &mdash; see "Why only 76" below. Of those 76:</p>
+        <div class="stat-grid">
+            <div class="stat"><div class="num">84%</div><div class="label">self-serve access (64/76)</div></div>
+            <div class="stat"><div class="num">86%</div><div class="label">have some MCP mention (65/76)</div></div>
+            <div class="stat"><div class="num">66%</div><div class="label">use OAuth2 as an auth method</div></div>
+            <div class="stat"><div class="num">92%</div><div class="label">judged "buildable today" (70/76)</div></div>
+        </div>
+        <p style="margin-top:14px;"><strong>The big takeaway:</strong> most of these apps have usable APIs and could probably be connected to an AI agent. But there's an important warning &mdash; the AI's research wasn't always accurate. That's covered in the verification section below.</p>
+        <p><span class="key-point">How apps authenticate:</span> the most common way is <strong>OAuth2</strong> &mdash; the user clicks something like "Connect to Slack" and the app hands over permission. The next most common is a plain <strong>API key</strong>, where a developer gets a secret key and gives it to the app. Basic authentication and simple tokens are also used, but less often. OAuth2 showed up in 50 of the 76 apps, API keys in 41 &mdash; many apps support both.</p>
+        <p><span class="key-point">Is access easy?</span> Mostly, yes. 64 of 76 apps are self-serve, meaning a developer can create an account, generate an API key or OAuth app, and start building &mdash; no approval needed. Only 12 apps were gated, meaning they need things like admin approval, business verification, or a sales call. Examples: Salesforce, LinkedIn Ads, Meta/Threads, DataForSEO, Amazon Selling Partner, and Datadog.</p>
+        <p style="margin-top:10px;"><em>One warning on the MCP number:</em> "65/76 mention MCP" does NOT mean 65 apps definitely have a working MCP server. It only means the word "MCP" showed up somewhere in the AI's research summary for that app. Treat it as a rough signal, not a confirmed fact.</p>
+    </section>
+
+    <!-- What didn't get done -->
+    <section class="section">
+        <h2>Why only 76 apps?</h2>
+        <div class="warn-box">
+            <p>This was <strong>not</strong> because the research system broke. It ran into API usage limits.</p>
+            <p>First the pipeline ran on <strong>Gemini</strong> &mdash; it hit Gemini's daily request limit. So the team switched to <strong>Groq</strong> instead. Groq then hit its own daily token limit too. Even after switching to a second API key, the research stopped at <strong>76/100</strong>.</p>
+            <p>The missing 24 apps are: all 10 <strong>Finance/Fintech</strong> apps, all 10 <strong>AI/Research/Media</strong> apps, and 4 <strong>Productivity</strong> apps (ClickUp, Coda, Smartsheet, Harvest). So this report does not represent all 100 apps equally &mdash; that's reported plainly here rather than hidden.</p>
+        </div>
+    </section>
+
+    <!-- Full findings table -->
+    <section class="section">
+        <h2>Findings: all 100 apps</h2>
+        <p>Greyed-out italic rows are the 24 not researched. Auth / access / MCP / verdict are simplified tags &mdash; the underlying checkpoint CSV has the full reasoning and source URLs per app.</p>
+        <div class="table-scroll">
+        <table>
+            <thead><tr><th>App</th><th>Category</th><th>Auth</th><th>Access</th><th>MCP mention</th><th>Verdict</th><th>Confidence</th></tr></thead>
+            <tbody>
+<tr><td>Salesforce</td><td>CRM and Sales</td><td>OAuth2</td><td>Gated</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>HubSpot</td><td>CRM and Sales</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Pipedrive</td><td>CRM and Sales</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>High</td></tr>
+<tr><td>Attio</td><td>CRM and Sales</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Twenty</td><td>CRM and Sales</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Podio</td><td>CRM and Sales</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Zoho CRM</td><td>CRM and Sales</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Close</td><td>CRM and Sales</td><td>API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Copper</td><td>CRM and Sales</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>DealCloud</td><td>CRM and Sales</td><td>OAuth2, API key</td><td>Gated</td><td>Yes</td><td>Can be used as an agent‑callable skill v…</td><td>Inferred</td></tr>
+<tr><td>Zendesk</td><td>Support and Helpdesk</td><td>OAuth2, Basic</td><td>Self-serve</td><td>No</td><td>Can be integrated via REST but not direc…</td><td>Inferred</td></tr>
+<tr><td>Intercom</td><td>Support and Helpdesk</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Freshdesk</td><td>Support and Helpdesk</td><td>OAuth2, API key, Basic</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Front</td><td>Support and Helpdesk</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Pylon</td><td>Support and Helpdesk</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>LiveAgent</td><td>Support and Helpdesk</td><td>API key</td><td>Self-serve</td><td>No</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Plain</td><td>Support and Helpdesk</td><td>API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Help Scout</td><td>Support and Helpdesk</td><td>API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Gorgias</td><td>Support and Helpdesk</td><td>Token</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Gladly</td><td>Support and Helpdesk</td><td>API key</td><td>Gated</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Slack</td><td>Communications and Messaging</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Twilio</td><td>Communications and Messaging</td><td>OAuth2, API key</td><td>Self-serve</td><td>No</td><td>Buildable</td><td>High</td></tr>
+<tr><td>Zoho Cliq</td><td>Communications and Messaging</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>High</td></tr>
+<tr><td>Lark (Larksuite)</td><td>Communications and Messaging</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Pumble</td><td>Communications and Messaging</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Discord</td><td>Communications and Messaging</td><td>OAuth2</td><td>Self-serve</td><td>No</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Telegram</td><td>Communications and Messaging</td><td>Token</td><td>Self-serve</td><td>No</td><td>Fully buildable today using the official…</td><td>Inferred</td></tr>
+<tr><td>WhatsApp Business</td><td>Communications and Messaging</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Fully buildable today; the only blockers…</td><td>Medium</td></tr>
+<tr><td>Aircall</td><td>Communications and Messaging</td><td>OAuth2, API key</td><td>Gated</td><td>No</td><td>Potentially buildable as an agent toolki…</td><td>Inferred</td></tr>
+<tr><td>Vonage</td><td>Communications and Messaging</td><td>API key, Basic</td><td>Self-serve</td><td>No</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Google Ads</td><td>Marketing Ads Email and Social</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Meta Ads</td><td>Marketing Ads Email and Social</td><td>OAuth2</td><td>Self-serve</td><td>No</td><td>Buildable</td><td>High</td></tr>
+<tr><td>LinkedIn Ads</td><td>Marketing Ads Email and Social</td><td>OAuth2</td><td>Gated</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>GoHighLevel</td><td>Marketing Ads Email and Social</td><td>OAuth2</td><td>Gated</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Mailchimp</td><td>Marketing Ads Email and Social</td><td>API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Klaviyo</td><td>Marketing Ads Email and Social</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>systeme.io</td><td>Marketing Ads Email and Social</td><td>API key</td><td>Gated</td><td>Yes</td><td>Can be used as an agent toolkit today, b…</td><td>Inferred</td></tr>
+<tr><td>Pinterest</td><td>Marketing Ads Email and Social</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Threads (Meta)</td><td>Marketing Ads Email and Social</td><td>OAuth2</td><td>Gated</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>SendGrid</td><td>Marketing Ads Email and Social</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Shopify</td><td>Ecommerce</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>High</td></tr>
+<tr><td>WooCommerce</td><td>Ecommerce</td><td>OAuth2, API key, Basic</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>BigCommerce</td><td>Ecommerce</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Salesforce Commerce Cloud</td><td>Ecommerce</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Magento (Adobe Commerce)</td><td>Ecommerce</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Squarespace</td><td>Ecommerce</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Can be built today using the REST endpoi…</td><td>Inferred</td></tr>
+<tr><td>Ecwid</td><td>Ecommerce</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Gumroad</td><td>Ecommerce</td><td>API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Amazon Selling Partner</td><td>Ecommerce</td><td>OAuth2</td><td>Gated</td><td>Yes</td><td>Buildable</td><td>High</td></tr>
+<tr><td>fanbasis</td><td>Ecommerce</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>DataForSEO</td><td>Data SEO and Scraping</td><td>API key</td><td>Gated</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>SE Ranking</td><td>Data SEO and Scraping</td><td>API key</td><td>Gated</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Ahrefs</td><td>Data SEO and Scraping</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>High</td></tr>
+<tr><td>MrScraper</td><td>Data SEO and Scraping</td><td>API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Apify</td><td>Data SEO and Scraping</td><td>Token</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Firecrawl</td><td>Data SEO and Scraping</td><td>API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Bright Data</td><td>Data SEO and Scraping</td><td>API key</td><td>Self-serve</td><td>Yes</td><td>Fully buildable today; the only limitati…</td><td>High</td></tr>
+<tr><td>Sherlock</td><td>Data SEO and Scraping</td><td>none (open-source tool, no aut…</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Inferred</td></tr>
+<tr><td>Waterfall.io</td><td>Data SEO and Scraping</td><td>API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Clay</td><td>Data SEO and Scraping</td><td>API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>GitHub</td><td>Developer Infra and Data platforms</td><td>OAuth2, Basic</td><td>Self-serve</td><td>Yes</td><td>Fully buildable today as an agent toolki…</td><td>High</td></tr>
+<tr><td>Vercel</td><td>Developer Infra and Data platforms</td><td>Token</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Netlify</td><td>Developer Infra and Data platforms</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>High</td></tr>
+<tr><td>Cloudflare</td><td>Developer Infra and Data platforms</td><td>API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Supabase</td><td>Developer Infra and Data platforms</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Fully buildable today as an agent toolki…</td><td>High</td></tr>
+<tr><td>Neo4j</td><td>Developer Infra and Data platforms</td><td>Basic</td><td>Self-serve</td><td>Yes</td><td>Fully buildable today; the only consider…</td><td>Medium</td></tr>
+<tr><td>Snowflake</td><td>Developer Infra and Data platforms</td><td>OAuth2, Basic</td><td>Self-serve</td><td>No</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>MongoDB Atlas</td><td>Developer Infra and Data platforms</td><td>API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Datadog</td><td>Developer Infra and Data platforms</td><td>API key</td><td>Gated</td><td>Yes</td><td>Can be built today using the official MC…</td><td>Medium</td></tr>
+<tr><td>Sentry</td><td>Developer Infra and Data platforms</td><td>Token</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>High</td></tr>
+<tr><td>Notion</td><td>Productivity and Project Management</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>High</td></tr>
+<tr><td>Airtable</td><td>Productivity and Project Management</td><td>OAuth2, API key</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Linear</td><td>Productivity and Project Management</td><td>OAuth2, API key</td><td>Self-serve</td><td>No</td><td>Buildable</td><td>Medium</td></tr>
+<tr><td>Jira</td><td>Productivity and Project Management</td><td>OAuth2, Basic</td><td>Self-serve</td><td>No</td><td>Buildable</td><td>High</td></tr>
+<tr><td>Asana</td><td>Productivity and Project Management</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>High</td></tr>
+<tr><td>Monday.com</td><td>Productivity and Project Management</td><td>OAuth2</td><td>Self-serve</td><td>Yes</td><td>Buildable</td><td>Medium</td></tr>
+<tr class="incomplete"><td>ClickUp</td><td>Productivity and Project Management</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Coda</td><td>Productivity and Project Management</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Smartsheet</td><td>Productivity and Project Management</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Harvest</td><td>Productivity and Project Management</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Stripe</td><td>Finance and Fintech</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Plaid</td><td>Finance and Fintech</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Binance</td><td>Finance and Fintech</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Paygent Connect</td><td>Finance and Fintech</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>iPayX</td><td>Finance and Fintech</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>QuickBooks</td><td>Finance and Fintech</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Xero</td><td>Finance and Fintech</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Brex</td><td>Finance and Fintech</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Ramp</td><td>Finance and Fintech</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>PitchBook</td><td>Finance and Fintech</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>NotebookLM</td><td>AI Research and Media-native</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Otter AI</td><td>AI Research and Media-native</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Fathom</td><td>AI Research and Media-native</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Consensus</td><td>AI Research and Media-native</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Reducto</td><td>AI Research and Media-native</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Devin</td><td>AI Research and Media-native</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>higgsfield</td><td>AI Research and Media-native</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Mermaid CLI</td><td>AI Research and Media-native</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>YouTube Transcript</td><td>AI Research and Media-native</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+<tr class="incomplete"><td>Grain</td><td>AI Research and Media-native</td><td>nan</td><td>nan</td><td>nan</td><td>Not researched</td><td>—</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </section>
+
+    <!-- Agent -->
+    <section class="section">
+        <h2>How the agent worked</h2>
+        <p>The agent (<code>agent.py</code>) used a two-step process for every app, calling Composio's own search tool:</p>
+        <ul>
+            <li><strong>Step 1 &mdash; Search.</strong> The AI was given an app name and website and one tool, a web search, and told to look for authentication, API details, access requirements, and whether an agent could use the app &mdash; preferring the app's own official documentation first. It searched a few times per app before summarizing what it found.</li>
+            <li><strong>Step 2 &mdash; Structure the answer.</strong> The AI then converted its research into fixed fields: App &rarr; Auth &rarr; Access &rarr; API &rarr; Verdict &rarr; Evidence &rarr; Confidence.</li>
+            <li><strong>Saved after every app.</strong> This was useful because if the process crashed or hit a rate limit, it could pick back up instead of starting over from zero.</li>
+        </ul>
+        <p><strong>Where a human is needed:</strong> 4 of the 76 completed rows were flagged by the pipeline itself as needing human review (it couldn't find enough to fill in the core fields). Beyond that, the verification below shows the AI's own "confidence" label wasn't a reliable sign of whether an answer was actually correct &mdash; so a human still needs to spot-check important results.</p>
+    </section>
+
+    <!-- Verification -->
+    <section class="section">
+        <h2>Verification: how accurate is it, really</h2>
+        <div class="summary-box">
+            <p><strong>Method:</strong> 16 apps were pulled from the completed 76 and checked by hand against the actual developer docs (Zendesk's row didn't have enough info to score and was dropped, leaving <strong>15 scored apps</strong>). Each of 5 fields &mdash; auth method, self-serve/gated, API surface, buildability verdict, and evidence link &mdash; was marked correct or not against the real docs.</p>
+        </div>
+        <div class="stat-grid" style="margin-top:16px;">
+            <div class="stat"><div class="num">60%</div><div class="label">auth method correct (9/15)</div></div>
+            <div class="stat"><div class="num">93%</div><div class="label">self-serve/gated correct (14/15)</div></div>
+            <div class="stat"><div class="num">67%</div><div class="label">API surface correct (10/15)</div></div>
+            <div class="stat"><div class="num">60%</div><div class="label">verdict correct (9/15)</div></div>
+            <div class="stat"><div class="num">53%</div><div class="label">evidence link valid (8/15)</div></div>
+        </div>
+        <p style="margin-top:14px;"><strong>Bottom line:</strong> <span class="pill pill-warn">53% (8/15) fully correct</span> on every field at once. The strongest field by far is self-serve-vs-gated (93%) &mdash; that's the easiest thing to find in docs and the model gets it right almost every time. The weakest is evidence links (53%): several "correct-sounding" rows cited a URL that either didn't exist, didn't back up the claim, or pointed at an unofficial mirror instead of the real docs.</p>
+
+        <h3 style="margin-top:20px;">What broke, with examples</h3>
+        <table class="verify-table" style="margin-top:6px;">
+            <thead><tr><th>App</th><th>What went wrong</th></tr></thead>
+            <tbody>
+                <tr><td>Close</td><td>Agent said no public OAuth2 app / API surface; docs actually show a proper OAuth2 app flow. Verdict marked wrong.</td></tr>
+                <tr><td>BigCommerce</td><td>Auth method came back "not available" even though BigCommerce documents OAuth clearly. Verdict marked wrong.</td></tr>
+                <tr><td>Ecwid</td><td>Auth method returned no data, and the cited evidence URL didn't resolve to anything useful ("no URL").</td></tr>
+                <tr><td>Squarespace</td><td>API surface tag was wrong (called it something other than REST) and evidence URL was invalid.</td></tr>
+                <tr><td>LiveAgent, DataForSEO</td><td>Both correctly identified OAuth but the verdict/evidence combo was marked "not fully available" &mdash; docs existed but the specific claim wasn't well backed.</td></tr>
+                <tr><td>Zendesk</td><td>Dropped from scoring entirely &mdash; the manual check didn't have enough to compare against.</td></tr>
+            </tbody>
+        </table>
+        <p style="margin-top:14px;"><strong>Correctly caught, for balance:</strong> WooCommerce, systeme.io, Telegram, Discord, Shopify, Bright Data, and Vercel/Snowflake all came back fully correct on every field &mdash; mostly apps with a single, clearly documented public REST API and one obvious auth method, which is exactly where an LLM-plus-search agent should do well.</p>
+        <p><strong>Read on the confidence label:</strong> the agent's own "High / Medium / Inferred" tag didn't line up cleanly with which rows verification caught as wrong &mdash; some of the errors above (BigCommerce, Close) were tagged Medium/High confidence, not Inferred. So confidence, as currently produced, isn't a substitute for spot-checking.</p>
+        <p><strong>This was a single verification pass</strong>, not an iterate-and-remeasure loop &mdash; there's no earlier/later accuracy number to report, just the one honest pass above. Given more time, the next step would be a second pass that re-runs only the rows verification flagged as wrong, with a stricter prompt (require the exact doc URL to be fetched and re-checked before the model can claim a fact from it) rather than trusting search-snippet text alone.</p>
+    </section>
+
+    <!-- Limitations -->
+    <section class="section">
+        <h2>Known limitations</h2>
+        <ul>
+            <li>24/100 apps not researched (whole Finance/Fintech and AI/Research/Media categories) due to API quota limits &mdash; see above.</li>
+            <li>Evidence URLs are agent-reported, not link-checked automatically; verification found 2 of 15 sampled evidence links were invalid or didn't resolve.</li>
+            <li>"MCP mention" in the table is a keyword signal from the agent's summary, not a confirmed working MCP server for every app tagged Yes.</li>
+            <li>Confidence labels (High/Medium/Inferred) are the model's self-assessment and don't reliably predict which rows verification will catch as wrong.</li>
+            <li>Verification covered 15 of 76 completed apps (~20%); the accuracy numbers above are a sample estimate, not a full-dataset audit.</li>
+        </ul>
+    </section>
+
+    <footer class="section">
+        <p>Prepared for the Composio AI Product Ops Intern take-home. Agent: <code>agent.py</code> (Groq + Composio EXA search). Raw output: <code>research_results_checkpoint.csv</code>. Manual verification: <code>verification_sample.xlsx</code>.</p>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+composio
+google-genai
+pandas
+openpyxl
+python-dotenv
+pydantic
